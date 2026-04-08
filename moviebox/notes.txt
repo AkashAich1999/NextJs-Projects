@@ -1,3 +1,23 @@
 npx create-next-app@16.1.4 .
-npm run dev
+npm run dev   -->   http://localhost:3000
 
+npm i lucide-react
+
+In 'globals.css':  Remove some code.
+In 'page.tsx':  Remove everything inside 'return' statement.
+
+
+New Code inside 'page.tsx':
+import HeroSection from "@/components/HeroSection";
+
+export default function Home() {
+  return (
+    <>
+      <h1>Movie Box</h1>
+      <HeroSection />
+    </>
+  );
+}
+
+
+Create 'components' Folder  --->  'HeroSection.tsx' File.
