@@ -392,3 +392,69 @@ export default HeroSection;
       while Leaving the Middle Clear. This Focuses the User's Eye on the Center of the Screen where 
       our Popcorn Icon and "MovieBox" Title are Located.
 */
+
+/*
+    const HeroSection = ({ movies, searchTerm, setSearchTerm }: IHeroSectionProps) => {
+
+    ● Destructuring { ... }: Instead of writing props.movies or props.searchTerm everywhere inside our Code, 
+      We are "Unpacking" them Right at the Start. This makes our Code much Cleaner.
+
+    ● Type Assignment : IHeroSectionProps: This is the "Safety Guard." 
+      We are telling React: "This Component must Follow the Rules Defined in the IHeroSectionProps interface."
+*/
+
+/*
+    <div className="grid grid-cols-5 gap-1 opacity-60 absolute inset-0">
+        {  movies.length >= 5 
+            ? movies.map((movie) => 
+              <div key={movie.id}>
+                <Image 
+                  className="w-full h-full object-cover" 
+                  width={250}
+                  height={250}
+                  alt={movie.title}
+                  src={
+                    // movie.poster_path
+                    movie.poster_path && movie.poster_path !== "null"
+                      ? `${IMAGE_PATH}${movie.poster_path}`
+                      : "/placeholder-img.svg"
+                  }
+                />
+              </div>)
+            : Array(5)
+              .fill(5)
+              .map((_, index) => (
+                <div key={index}>
+                    <Image 
+                      src={`/movie-img/movie-${index + 1}.webp`} 
+                      className="w-full h-full object-cover"
+                      width={250}
+                      height={250}
+                      alt="Movies"
+                    />
+                </div>
+              )) 
+        }
+      </div>
+
+    The Conditional Logic (Ternary Operator)
+    
+    1. Scenario A: API Has Movies (movies.length >= 5)
+
+       If the API returns Data, we use .map() to Loop through the First 5 Movies.
+
+       ● Image Fallback: Inside the src, we Check if poster_path exists. 
+         If TMDB returns null, we switch to our /placeholder-img.svg. 
+         This prevents "broken Image" Icons from appearing in our Beautiful UI.
+
+
+    2. Scenario B: API is Empty (The : Array(5)... part)
+
+       If we don't have Enough Movies (e.g., While the Page is Loading or After a Failed Search), 
+       We Create a "Fake Array" of 5 Items.
+
+       ● Local Assets: We map through this Fake Array to Display Images from our 
+         Local Folder: /movie-img/movie-1.webp, /movie-img/movie-2.webp, etc.
+
+       ● Why ? => This ensures our Hero Section never looks Empty, keeping the Design Consistent at All Times.
+*/

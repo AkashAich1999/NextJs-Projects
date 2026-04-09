@@ -255,3 +255,111 @@ export default function Home() {
        ● If No: Use a local file called placeholder-img.svg. This prevents our app from 
          showing "Broken Image" Icons if a Movie is missing its Poster.
 */
+
+/*
+    (query = "")
+  
+    This part defines the function's Parameters with a Default Value.
+
+    ● query: This is the variable name for the data we pass into the function (e.g., "Batman").
+
+    ● = "": This is a Default Parameter.
+
+    If we call fetchMovies() without Passing anything, query will automatically be an Empty string. 
+    This prevents the code from breaking or sending undefined to the API.
+*/
+
+/*
+    encodeURIComponent(query): This is a Security and Stability Best Practice. 
+    
+    It Converts Special Characters (like Spaces or Symbols) into a Format Safe for URLs 
+    (e.g., a Space becomes %20).
+*/
+
+/*
+    The Breakdown:
+
+    1. ${API_URL}: This is our Base Domain (e.g., https://api.themoviedb.org/3). 
+       It saves us from Typing the Full Address every time.
+
+    2. /search/movie: This is the Specific "Endpoint" or Folder on the TMDB Server that Handles Searches.
+
+    3. ?query=: This is a URL Parameter. 
+       The ? tells the Server "I'm about to give you some Specific Instructions," and 
+       query is the Name of the Instruction TMDB expects.
+
+    4. ${encodeURIComponent(query)}: This is the most Important part for Stability. 
+       It takes the Text the User Typed and "Sanitizes" it for the Internet.
+*/
+
+/*
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        fetchMovies(searchTerm)
+      }, 500);
+
+      return () => {
+        clearTimeout(timer)
+      };
+    }, [searchTerm]);
+
+    This Block of Code is a Debounce Pattern. 
+
+    It is one of the most important Performance Optimizations in Web Development, especially for Search Bars.
+
+    It's Goal is Simple: Don't call the API for Every Single Letter the User Types. 
+    Instead, Wait until they Stop Typing for Half a Second.
+
+    1. The useEffect Hook :
+
+       useEffect(() => { ... }, [searchTerm]);
+
+       The [searchTerm] at the End is the Dependency Array. 
+       This Runs Every Time searchTerm Changes.
+
+       ● Example:   User types: a → ab → abc
+
+       ● Effect runs 3 Times.
+
+    2. The setTimeout (The Delay) :
+
+        const timer = setTimeout(() => {
+          fetchMovies(searchTerm)
+        }, 500);
+
+        ● Waits 500ms, then Calls:  fetchMovies(searchTerm)
+
+
+        ● Without this, if a User Types "Batman" (6 Letters), Our App would Call the TMDB API 6 Times in About 1 Second.
+
+        ● Instead, setTimeout Creates a 500ms (0.5 seconds) Delay.
+
+        ● It Says: "Wait 0.5 Seconds, and Then Run fetchMovies."
+
+    3. The return (The Cleanup) :
+
+       return () => {
+         clearTimeout(timer)
+       };
+
+       This is the Cleanup Function. It is the most critical Part of the Logic.
+
+       Every time the User Types a New Letter, the useEffect Runs again.
+
+       Before it Starts the New Timer, it Runs this Cleanup Function to Kill the Previous Timer.
+
+
+    The Real-World Example:
+
+    Imagine We are Typing "Joker":
+    
+    1. We type "J": useEffect Starts a 500ms Timer.
+
+    2. We type "o" (100ms later): The Cleanup Function Kills the "J" Timer. A new 500ms Timer for "Jo" Starts.
+
+    3. We type "k" (100ms later): The "Jo" Timer is Killed. A new 500ms Timer for "Jok" Starts.
+
+    4. We stop Typing.
+
+    The 500ms Timer finally Finishes, and fetchMovies("Joker") is called only Once.
+*/
