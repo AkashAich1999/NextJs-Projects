@@ -1,7 +1,16 @@
+"use client";
+
+import { IMAGE_PATH } from "@/constants";
 import { Popcorn, Search } from "lucide-react";
 import Image from "next/image";
 
-const HeroSection = () => {
+interface IHeroSectionProps {
+  movies: IMovie[];
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+}
+
+const HeroSection = ({ movies, searchTerm, setSearchTerm }: IHeroSectionProps) => {
   return (
     <header className="relative h-[70vh]">
 
@@ -9,7 +18,7 @@ const HeroSection = () => {
         
         <div className="flex items-center justify-center flex-col mb-4 gap-4">
 
-          <div className="flex items-center justify-center bg-red-500 w-14 h-14 rounded-xl shadown-lg mb-4">
+          <div className="flex items-center justify-center bg-red-500 w-14 h-14 rounded-xl shadow-lg mb-4">
             <Popcorn className="h-7 w-7" />
           </div>
 
@@ -22,17 +31,38 @@ const HeroSection = () => {
         </div>  
 
         <div className="relative h-12">
+
           <Search className="absolute text-santas-gray h-4 w-4 left-3 top-1/2 -translate-y-1/2" />
+
           <input 
             className="bg-dark-black mb-10 w-full h-full pl-10 pr-10 rounded-xl outline-none border-none" 
-            placeholder="Search movies..." />
+            placeholder="Search movies..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+           />
+
         </div>
 
       </div>
 
       <div className="grid grid-cols-5 gap-1 opacity-60 absolute inset-0">
-        {
-            Array(5)
+        {  movies.length >= 5 
+            ? movies.map((movie) => 
+              <div key={movie.id}>
+                <Image 
+                  className="w-full h-full object-cover" 
+                  width={250}
+                  height={250}
+                  alt={movie.title}
+                  src={
+                    // movie.poster_path
+                    movie.poster_path && movie.poster_path !== "null"
+                      ? `${IMAGE_PATH}${movie.poster_path}`
+                      : "/placeholder-img.svg"
+                  }
+                />
+              </div>)
+            : Array(5)
               .fill(5)
               .map((_, index) => (
                 <div key={index}>
@@ -44,7 +74,7 @@ const HeroSection = () => {
                       alt="Movies"
                     />
                 </div>
-              ))
+              )) 
         }
       </div>
 
